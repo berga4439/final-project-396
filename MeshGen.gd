@@ -40,14 +40,14 @@ func gen_map() -> void:
 				yPick += 1
 			else:
 				yPick -= 1
-			if xPick > DIM:
-				xPick = DIM
-			if xPick < 0:
-				xPick = 0
-			if yPick > DIM:
-				yPick = DIM
-			if yPick < 0:
-				yPick = 0
+			if xPick > DIM-1:
+				xPick = DIM-1
+			if xPick < 1:
+				xPick = 1
+			if yPick > DIM-1:
+				yPick = DIM-1
+			if yPick < 1:
+				yPick = 1
 			mapPoints[xPick + yPick*(DIM+1)].isInterior = true
 
 func gen_mesh() -> void:
