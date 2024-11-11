@@ -1,0 +1,58 @@
+[gd_scene load_steps=8 format=3 uid="uid://coufd48ogb5ru"]
+
+[ext_resource type="Script" path="res://MeshGen.gd" id="1_urorb"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_b35b8"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_d6v52"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_a0shk"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_jldcv"]
+
+[sub_resource type="Sky" id="Sky_44ppa"]
+sky_material = SubResource("ProceduralSkyMaterial_jldcv")
+
+[sub_resource type="Environment" id="Environment_cgt2h"]
+background_mode = 2
+sky = SubResource("Sky_44ppa")
+ambient_light_color = Color(1, 1, 1, 1)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+transform = Transform3D(10, 0, 0, 0, 1, 0, 0, 0, 10, 0, 0, 0)
+mesh = SubResource("PlaneMesh_b35b8")
+
+[node name="Ceiling" type="MeshInstance3D" parent="."]
+transform = Transform3D(-10, 8.74228e-08, 0, -8.74228e-07, -1, 0, 0, 0, 10, 0, 1, 0)
+mesh = SubResource("PlaneMesh_d6v52")
+
+[node name="Boundary_North" type="MeshInstance3D" parent="."]
+transform = Transform3D(10, 0, 0, 0, -4.37114e-08, -0.5, 0, 1, -2.18557e-08, 0, 0.5, -10)
+mesh = SubResource("PlaneMesh_a0shk")
+
+[node name="Boundary_South" type="MeshInstance3D" parent="."]
+transform = Transform3D(10, 0, 0, 0, -4.37114e-08, 0.5, 0, -1, -2.18557e-08, 0, 0.5, 10)
+mesh = SubResource("PlaneMesh_a0shk")
+
+[node name="Boundary_West" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-07, 1, -2.18557e-08, 0, -4.37114e-08, -0.5, -10, -4.37114e-08, 9.55343e-16, -10, 0.5, 0)
+mesh = SubResource("PlaneMesh_a0shk")
+
+[node name="Boundary_East" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-07, -1, 2.18557e-08, 0, -4.37114e-08, -0.5, 10, -4.37114e-08, 9.55343e-16, 10, 0.5, 0)
+mesh = SubResource("PlaneMesh_a0shk")
+
+[node name="RandomInteriorGenerator" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000319958, -0.00436845, 0.00096035)
+script = ExtResource("1_urorb")
+DIM = 20
+PASSES = 10
+STEPS = 50
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.408045, 1.54423)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_cgt2h")
