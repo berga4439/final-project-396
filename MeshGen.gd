@@ -40,12 +40,12 @@ func gen_map() -> void:
 				yPick += 1
 			else:
 				yPick -= 1
-			if xPick > 10:
-				xPick = 10
+			if xPick > DIM:
+				xPick = DIM
 			if xPick < 0:
 				xPick = 0
-			if yPick > 10:
-				yPick = 10
+			if yPick > DIM:
+				yPick = DIM
 			if yPick < 0:
 				yPick = 0
 			mapPoints[xPick + yPick*(DIM+1)].isInterior = true
