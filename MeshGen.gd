@@ -1,5 +1,7 @@
 extends MeshInstance3D
 
+const WALL = preload("res://textures/temp_art/wall.tres")
+
 @export var DIM = 10
 @export var UNITS = 1
 @export var OFFSET = -10
@@ -9,17 +11,31 @@ extends MeshInstance3D
 
 var mapPoints = []
 var wall_meshes = ArrayMesh.new()
-var material = StandardMaterial3D.new()
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	material.vertex_color_use_as_albedo = true
-	material_override = material
+	material_override = WALL
 	gen_map()
 	gen_mesh()
+	mesh = wall_meshes
+	for child in get_children():
+		if child is StaticBody3D:
+			child.queue_free()
+	create_trimesh_collision()
 
+
+
+func reload_map() -> void:
+	gen_map()
+	gen_mesh()
+	mesh = wall_meshes
+	for child in get_children():
+		if child is StaticBody3D:
+			child.queue_free()
+	create_trimesh_collision()
 
 func gen_map() -> void:
 	mapPoints = []
+	wall_meshes = ArrayMesh.new()
 	for i in range(DIM + 1):
 		for j in range(DIM + 1):
 			mapPoints.append(Point.new(j*UNITS + OFFSET, i*UNITS + OFFSET, false))
@@ -54,7 +70,6 @@ func gen_mesh() -> void:
 	for i in range(DIM):
 		for j in range(DIM):
 			new_quad(get_tile(j, i))
-	mesh = wall_meshes
 
 func get_tile(xCoord: int, yCoord: int) -> Array:
 	var temp = []
@@ -81,27 +96,22 @@ func new_quad(tilePoints: Array) -> void:
 				var xRel = 0
 				var zRel = 0
 				var indices = PackedInt32Array()
-				var debugColor = Color(1, 1, 1, 1)
 				if(i == 0):
 					xRel = UNITS / 2.0
 					zRel = UNITS / 2.0
 					indices = PackedInt32Array([0, 3, 1, 0, 2, 3])
-					debugColor = Color(1, 0, 0, 1)
 				elif(i == 1):
 					xRel = -(UNITS / 2.0)
 					zRel = UNITS / 2.0
 					indices = PackedInt32Array([0, 1, 2, 1, 3, 2])
-					debugColor = Color(0, 1, 0, 1)
 				elif(i == 2):
 					xRel = UNITS / 2.0
 					zRel = -(UNITS / 2.0)
 					indices = PackedInt32Array([0, 1, 2, 1, 3, 2])
-					debugColor = Color(0, 0, 1, 1)
 				elif(i == 3):
 					xRel = -(UNITS / 2.0)
 					zRel = -(UNITS / 2.0)
 					indices = PackedInt32Array([0, 3, 1, 0, 2, 3])
-					debugColor = Color(1, 0, 1, 1)
 				var verts = PackedVector3Array([
 					Vector3(tilePoints[i].x + xRel, 0, tilePoints[i].y),
 					Vector3(tilePoints[i].x, 0, tilePoints[i].y + zRel),
@@ -109,18 +119,16 @@ func new_quad(tilePoints: Array) -> void:
 					Vector3(tilePoints[i].x, WALL_HEIGHT, tilePoints[i].y + zRel)
 				])
 				var uvs = PackedVector2Array([
-					Vector2(0, 1),
-					Vector2(1, 1),
+					Vector2(0, 0),
 					Vector2(1, 0),
-					Vector2(0, 0)
+					Vector2(0, 1),
+					Vector2(1, 1)
 				])
-				var colors = PackedColorArray([debugColor, debugColor, debugColor, debugColor])
 				var surf = []
 				surf.resize(ArrayMesh.ARRAY_MAX)
 				surf[ArrayMesh.ARRAY_VERTEX] = verts
 				surf[ArrayMesh.ARRAY_TEX_UV] = uvs
 				surf[ArrayMesh.ARRAY_INDEX] = indices
-				surf[ArrayMesh.ARRAY_COLOR] = colors
 				wall_meshes.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, surf)
 	elif count == 2:
 		if patternMap == [1, 0, 0, 1] or patternMap == [0, 1, 1, 0]:
@@ -129,27 +137,22 @@ func new_quad(tilePoints: Array) -> void:
 					var xRel = 0
 					var zRel = 0
 					var indices = PackedInt32Array()
-					var debugColor = Color(1, 1, 1, 1)
 					if(i == 0):
 						xRel = UNITS / 2.0
 						zRel = UNITS / 2.0
 						indices = PackedInt32Array([0, 3, 1, 0, 2, 3])
-						debugColor = Color(1, 0, 0, 1)
 					elif(i == 1):
 						xRel = -(UNITS / 2.0)
 						zRel = UNITS / 2.0
 						indices = PackedInt32Array([0, 1, 2, 1, 3, 2])
-						debugColor = Color(0, 1, 0, 1)
 					elif(i == 2):
 						xRel = UNITS / 2.0
 						zRel = -(UNITS / 2.0)
 						indices = PackedInt32Array([0, 1, 2, 1, 3, 2])
-						debugColor = Color(0, 0, 1, 1)
 					elif(i == 3):
 						xRel = -(UNITS / 2.0)
 						zRel = -(UNITS / 2.0)
 						indices = PackedInt32Array([0, 3, 1, 0, 2, 3])
-						debugColor = Color(1, 0, 1, 1)
 					var verts = PackedVector3Array([
 						Vector3(tilePoints[i].x + xRel, 0, tilePoints[i].y),
 						Vector3(tilePoints[i].x, 0, tilePoints[i].y + zRel),
@@ -157,38 +160,31 @@ func new_quad(tilePoints: Array) -> void:
 						Vector3(tilePoints[i].x, WALL_HEIGHT, tilePoints[i].y + zRel)
 					])
 					var uvs = PackedVector2Array([
-						Vector2(0, 1),
-						Vector2(1, 1),
+						Vector2(0, 0),
 						Vector2(1, 0),
-						Vector2(0, 0)
+						Vector2(0, 1),
+						Vector2(1, 1)
 					])
-					var colors = PackedColorArray([debugColor, debugColor, debugColor, debugColor])
 					var surf = []
 					surf.resize(ArrayMesh.ARRAY_MAX)
 					surf[ArrayMesh.ARRAY_VERTEX] = verts
 					surf[ArrayMesh.ARRAY_TEX_UV] = uvs
 					surf[ArrayMesh.ARRAY_INDEX] = indices
-					surf[ArrayMesh.ARRAY_COLOR] = colors
 					wall_meshes.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, surf)
 		else:
 			var isVertical = true
 			var mid = UNITS / 2.0
 			var indices = PackedInt32Array()
-			var debugColor = Color(1, 1, 1, 1)
 			if patternMap == [1, 1, 0, 0]:
 				indices = PackedInt32Array([0, 1, 2, 1, 3, 2])
 				isVertical = false
-				debugColor = Color(1, 0, 0, 1)
 			elif patternMap == [0, 0, 1, 1]:
 				indices = PackedInt32Array([2, 1, 0, 2, 3, 1])
 				isVertical = false
-				debugColor = Color(0, 1, 0, 1)
 			elif patternMap == [1, 0, 1, 0]:
 				indices = PackedInt32Array([1, 0, 3, 3, 0, 2])
-				debugColor = Color(0, 0, 1, 1)
 			else:
 				indices = PackedInt32Array([3, 0, 1, 2, 0, 3])
-				debugColor = Color(1, 0, 1, 1)
 			var verts = PackedVector3Array()
 			if isVertical:
 				verts = PackedVector3Array([
@@ -205,18 +201,16 @@ func new_quad(tilePoints: Array) -> void:
 					Vector3(tilePoints[0].x + UNITS, WALL_HEIGHT, tilePoints[0].y + mid)
 				])
 			var uvs = PackedVector2Array([
-					Vector2(0, 1),
-					Vector2(1, 1),
+					Vector2(0, 0),
 					Vector2(1, 0),
-					Vector2(0, 0)
+					Vector2(0, 1),
+					Vector2(1, 1)
 			])
-			var colors = PackedColorArray([debugColor, debugColor, debugColor, debugColor])
 			var surf = []
 			surf.resize(ArrayMesh.ARRAY_MAX)
 			surf[ArrayMesh.ARRAY_VERTEX] = verts
 			surf[ArrayMesh.ARRAY_TEX_UV] = uvs
 			surf[ArrayMesh.ARRAY_INDEX] = indices
-			surf[ArrayMesh.ARRAY_COLOR] = colors
 			wall_meshes.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, surf)
 	elif count == 3:
 		for i in range(tilePoints.size()):
@@ -224,27 +218,22 @@ func new_quad(tilePoints: Array) -> void:
 				var xRel = 0
 				var zRel = 0
 				var indices = PackedInt32Array()
-				var debugColor = Color(1, 1, 1, 1)
 				if(i == 0):
 					xRel = UNITS / 2.0
 					zRel = UNITS / 2.0
 					indices = PackedInt32Array([0, 1, 2, 1, 3, 2])
-					debugColor = Color(1, 0, 0, 1)
 				elif(i == 1):
 					xRel = -(UNITS / 2.0)
 					zRel = UNITS / 2.0
 					indices = PackedInt32Array([0, 3, 1, 0, 2, 3])
-					debugColor = Color(0, 1, 0, 1)
 				elif(i == 2):
 					xRel = UNITS / 2.0
 					zRel = -(UNITS / 2.0)
 					indices = PackedInt32Array([0, 3, 1, 0, 2, 3])
-					debugColor = Color(0, 0, 1, 1)
 				elif(i == 3):
 					xRel = -(UNITS / 2.0)
 					zRel = -(UNITS / 2.0)
 					indices = PackedInt32Array([0, 1, 2, 1, 3, 2])
-					debugColor = Color(1, 0, 1, 1)
 				var verts = PackedVector3Array([
 					Vector3(tilePoints[i].x + xRel, 0, tilePoints[i].y),
 					Vector3(tilePoints[i].x, 0, tilePoints[i].y + zRel),
@@ -252,23 +241,24 @@ func new_quad(tilePoints: Array) -> void:
 					Vector3(tilePoints[i].x, WALL_HEIGHT, tilePoints[i].y + zRel)
 				])
 				var uvs = PackedVector2Array([
-					Vector2(0, 1),
-					Vector2(1, 1),
+					Vector2(0, 0),
 					Vector2(1, 0),
-					Vector2(0, 0)
+					Vector2(0, 1),
+					Vector2(1, 1)
 				])
-				var colors = PackedColorArray([debugColor, debugColor, debugColor, debugColor])
 				var surf = []
 				surf.resize(ArrayMesh.ARRAY_MAX)
 				surf[ArrayMesh.ARRAY_VERTEX] = verts
 				surf[ArrayMesh.ARRAY_TEX_UV] = uvs
 				surf[ArrayMesh.ARRAY_INDEX] = indices
-				surf[ArrayMesh.ARRAY_COLOR] = colors
 				wall_meshes.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, surf)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
-	pass
+	if Input.is_action_just_pressed("debug_map_reload"):
+		reload_map()
+	if Input.is_action_just_pressed("release_mouse"):
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 
 class Point:
