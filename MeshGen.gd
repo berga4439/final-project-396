@@ -1,6 +1,8 @@
 extends MeshInstance3D
 
 const WALL = preload("res://textures/temp_art/wall.tres")
+const TORCH = preload("res://torch.tscn")
+@onready var placed_objects: Node3D = $"../../Objects"
 
 @export var DIM = 10
 @export var UNITS = 1
@@ -11,6 +13,7 @@ const WALL = preload("res://textures/temp_art/wall.tres")
 
 var mapPoints = []
 var wall_meshes = ArrayMesh.new()
+var placement_points = []
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	material_override = WALL
@@ -21,10 +24,17 @@ func _ready() -> void:
 		if child is StaticBody3D:
 			child.queue_free()
 	create_trimesh_collision()
+	for location in placement_points:
+		place_torch(location[0], location[1])
 
-
+func place_torch(pos: Vector3, rot: Vector3) -> void:
+	var torch_instance = TORCH.instantiate()
+	torch_instance.position = pos
+	torch_instance.look_at_from_position(pos, pos + rot, Vector3.UP)
+	placed_objects.add_child(torch_instance)
 
 func reload_map() -> void:
+	placement_points = []
 	gen_map()
 	gen_mesh()
 	mesh = wall_meshes
@@ -96,6 +106,7 @@ func new_quad(tilePoints: Array) -> void:
 				var xRel = 0
 				var zRel = 0
 				var indices = PackedInt32Array()
+				var invert = true
 				if(i == 0):
 					xRel = UNITS / 2.0
 					zRel = UNITS / 2.0
@@ -104,10 +115,12 @@ func new_quad(tilePoints: Array) -> void:
 					xRel = -(UNITS / 2.0)
 					zRel = UNITS / 2.0
 					indices = PackedInt32Array([0, 1, 2, 1, 3, 2])
+					invert = false
 				elif(i == 2):
 					xRel = UNITS / 2.0
 					zRel = -(UNITS / 2.0)
 					indices = PackedInt32Array([0, 1, 2, 1, 3, 2])
+					invert = false
 				elif(i == 3):
 					xRel = -(UNITS / 2.0)
 					zRel = -(UNITS / 2.0)
@@ -118,6 +131,13 @@ func new_quad(tilePoints: Array) -> void:
 					Vector3(tilePoints[i].x + xRel, WALL_HEIGHT, tilePoints[i].y),
 					Vector3(tilePoints[i].x, WALL_HEIGHT, tilePoints[i].y + zRel)
 				])
+				var midpoint = (verts[3] + verts[0]) / 2.0
+				var u_edge = verts[2] - verts[0]
+				var v_edge = verts[1] - verts[0]
+				var norm = u_edge.cross(v_edge)
+				if(invert):
+					norm = -norm
+				placement_points.append([midpoint, norm])
 				var uvs = PackedVector2Array([
 					Vector2(0, 0),
 					Vector2(1, 0),

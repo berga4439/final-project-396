@@ -1,0 +1,79 @@
+[gd_scene load_steps=10 format=3 uid="uid://dl7xsdxxulh4l"]
+
+[ext_resource type="Material" uid="uid://bvvawkxt76v81" path="res://textures/temp_art/Wood.tres" id="1_kxcys"]
+[ext_resource type="Texture2D" uid="uid://b72c54ce4nuv0" path="res://textures/temp_art/smoke_particle.png" id="2_sq3sh"]
+
+[sub_resource type="Gradient" id="Gradient_jtb3i"]
+offsets = PackedFloat32Array(0, 0.143443, 0.204918, 0.29918, 0.954918)
+colors = PackedColorArray(0, 0, 0, 1, 1, 0.137255, 0.105882, 1, 0.930928, 0.509474, 1.15514e-06, 1, 0.937255, 0.2, 0.117647, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_4d1dg"]
+gradient = SubResource("Gradient_jtb3i")
+
+[sub_resource type="Curve" id="Curve_nbuoe"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.242647, 0.950906), 0.0, 0.0, 0, 0, Vector2(1, 0.086858), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_0ngop"]
+width = 2048
+curve = SubResource("Curve_nbuoe")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_u2suq"]
+emission_shape = 1
+emission_sphere_radius = 0.04
+angle_min = 1.07288e-05
+angle_max = 360.0
+direction = Vector3(0, 1, 0)
+spread = 0.0
+initial_velocity_min = 0.03
+initial_velocity_max = 0.08
+angular_velocity_min = -1.60933e-05
+angular_velocity_max = 40.0
+gravity = Vector3(0, 0, 0)
+linear_accel_min = -2.23517e-06
+linear_accel_max = 4.0
+scale_min = 0.2
+scale_max = 0.4
+scale_curve = SubResource("CurveTexture_0ngop")
+color_ramp = SubResource("GradientTexture1D_4d1dg")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jfixn"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("2_sq3sh")
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_jgm7d"]
+material = SubResource("StandardMaterial3D_jfixn")
+size = Vector2(0.15, 0.15)
+
+[node name="Torch" type="Node3D"]
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
+transform = Transform3D(-3.9616e-08, 1.84732e-08, -1, 0.422618, 0.906308, 0, 0.906308, -0.422618, -4.37114e-08, -0.05, 0, -0.05)
+radius = 0.02
+height = 0.3
+sides = 10
+material = ExtResource("1_kxcys")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="CSGCylinder3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.18, 0)
+light_color = Color(0.94902, 0.490196, 0.0470588, 1)
+light_energy = 0.1
+omni_range = 3.0
+omni_attenuation = 2.0
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="CSGCylinder3D"]
+transform = Transform3D(0.939693, 0.34202, 0, -0.34202, 0.939693, 0, 0, 0, 1, 0, 0.18, 0)
+amount = 200
+lifetime = 0.5
+randomness = 1.0
+fixed_fps = 0
+draw_order = 3
+process_material = SubResource("ParticleProcessMaterial_u2suq")
+draw_pass_1 = SubResource("QuadMesh_jgm7d")
