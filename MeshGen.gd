@@ -10,6 +10,7 @@ const TORCH = preload("res://torch.tscn")
 @export var WALL_HEIGHT = 1
 @export var PASSES = 5
 @export var STEPS = 20
+@export var DECAL_PERCENTAGE = 0.2
 
 var mapPoints = []
 var wall_meshes = ArrayMesh.new()
@@ -42,8 +43,10 @@ func reload_map() -> void:
 	create_trimesh_collision()
 	for child in placed_objects.get_children():
 		child.queue_free()
-	for location in placement_points:
-		place_torch(location[0], location[1])
+	placement_points.shuffle()
+	var selection = placement_points.size() * DECAL_PERCENTAGE
+	for i in range(selection):
+		place_torch(placement_points[i][0], placement_points[i][1])
 
 func gen_map() -> void:
 	mapPoints = []
@@ -159,6 +162,7 @@ func new_quad(tilePoints: Array) -> void:
 					var xRel = 0
 					var zRel = 0
 					var indices = PackedInt32Array()
+					var invert = true
 					if(i == 0):
 						xRel = UNITS / 2.0
 						zRel = UNITS / 2.0
@@ -167,10 +171,12 @@ func new_quad(tilePoints: Array) -> void:
 						xRel = -(UNITS / 2.0)
 						zRel = UNITS / 2.0
 						indices = PackedInt32Array([0, 1, 2, 1, 3, 2])
+						invert = false
 					elif(i == 2):
 						xRel = UNITS / 2.0
 						zRel = -(UNITS / 2.0)
 						indices = PackedInt32Array([0, 1, 2, 1, 3, 2])
+						invert = false
 					elif(i == 3):
 						xRel = -(UNITS / 2.0)
 						zRel = -(UNITS / 2.0)
@@ -181,6 +187,13 @@ func new_quad(tilePoints: Array) -> void:
 						Vector3(tilePoints[i].x + xRel, WALL_HEIGHT, tilePoints[i].y),
 						Vector3(tilePoints[i].x, WALL_HEIGHT, tilePoints[i].y + zRel)
 					])
+					var midpoint = (verts[3] + verts[0]) / 2.0
+					var u_edge = verts[2] - verts[0]
+					var v_edge = verts[1] - verts[0]
+					var norm = u_edge.cross(v_edge)
+					if(invert):
+						norm = -norm
+					placement_points.append([midpoint, norm])
 					var uvs = PackedVector2Array([
 						Vector2(0, 0),
 						Vector2(1, 0),
@@ -197,9 +210,11 @@ func new_quad(tilePoints: Array) -> void:
 			var isVertical = true
 			var mid = UNITS / 2.0
 			var indices = PackedInt32Array()
+			var invert = true
 			if patternMap == [1, 1, 0, 0]:
 				indices = PackedInt32Array([0, 1, 2, 1, 3, 2])
 				isVertical = false
+				invert = false
 			elif patternMap == [0, 0, 1, 1]:
 				indices = PackedInt32Array([2, 1, 0, 2, 3, 1])
 				isVertical = false
@@ -207,6 +222,7 @@ func new_quad(tilePoints: Array) -> void:
 				indices = PackedInt32Array([1, 0, 3, 3, 0, 2])
 			else:
 				indices = PackedInt32Array([3, 0, 1, 2, 0, 3])
+				invert = false
 			var verts = PackedVector3Array()
 			if isVertical:
 				verts = PackedVector3Array([
@@ -222,6 +238,13 @@ func new_quad(tilePoints: Array) -> void:
 					Vector3(tilePoints[0].x, WALL_HEIGHT, tilePoints[0].y + mid),
 					Vector3(tilePoints[0].x + UNITS, WALL_HEIGHT, tilePoints[0].y + mid)
 				])
+			var midpoint = (verts[3] + verts[0]) / 2.0
+			var u_edge = verts[2] - verts[0]
+			var v_edge = verts[1] - verts[0]
+			var norm = u_edge.cross(v_edge)
+			if(invert):
+				norm = -norm
+			placement_points.append([midpoint, norm])
 			var uvs = PackedVector2Array([
 					Vector2(0, 0),
 					Vector2(1, 0),
@@ -240,6 +263,7 @@ func new_quad(tilePoints: Array) -> void:
 				var xRel = 0
 				var zRel = 0
 				var indices = PackedInt32Array()
+				var invert = true
 				if(i == 0):
 					xRel = UNITS / 2.0
 					zRel = UNITS / 2.0
@@ -248,10 +272,12 @@ func new_quad(tilePoints: Array) -> void:
 					xRel = -(UNITS / 2.0)
 					zRel = UNITS / 2.0
 					indices = PackedInt32Array([0, 3, 1, 0, 2, 3])
+					invert = false
 				elif(i == 2):
 					xRel = UNITS / 2.0
 					zRel = -(UNITS / 2.0)
 					indices = PackedInt32Array([0, 3, 1, 0, 2, 3])
+					invert = false
 				elif(i == 3):
 					xRel = -(UNITS / 2.0)
 					zRel = -(UNITS / 2.0)
@@ -262,6 +288,13 @@ func new_quad(tilePoints: Array) -> void:
 					Vector3(tilePoints[i].x + xRel, WALL_HEIGHT, tilePoints[i].y),
 					Vector3(tilePoints[i].x, WALL_HEIGHT, tilePoints[i].y + zRel)
 				])
+				var midpoint = (verts[3] + verts[0]) / 2.0
+				var u_edge = verts[2] - verts[0]
+				var v_edge = verts[1] - verts[0]
+				var norm = u_edge.cross(v_edge)
+				if(!invert):
+					norm = -norm
+				placement_points.append([midpoint, norm])
 				var uvs = PackedVector2Array([
 					Vector2(0, 0),
 					Vector2(1, 0),
