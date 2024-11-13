@@ -1,7 +1,15 @@
-[gd_scene load_steps=10 format=3 uid="uid://dl7xsdxxulh4l"]
+[gd_scene load_steps=13 format=3 uid="uid://dl7xsdxxulh4l"]
 
 [ext_resource type="Material" uid="uid://bvvawkxt76v81" path="res://textures/temp_art/Wood.tres" id="1_kxcys"]
+[ext_resource type="Script" path="res://flicker.gd" id="2_iw13e"]
 [ext_resource type="Texture2D" uid="uid://b72c54ce4nuv0" path="res://textures/temp_art/smoke_particle.png" id="2_sq3sh"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_o1sfl"]
+noise_type = 3
+frequency = 0.0352
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_fp2df"]
+noise = SubResource("FastNoiseLite_o1sfl")
 
 [sub_resource type="Gradient" id="Gradient_jtb3i"]
 offsets = PackedFloat32Array(0, 0.143443, 0.204918, 0.29918, 0.954918)
@@ -56,6 +64,7 @@ size = Vector2(0.15, 0.15)
 
 [node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
 transform = Transform3D(-3.9616e-08, 1.84732e-08, -1, 0.422618, 0.906308, 0, 0.906308, -0.422618, -4.37114e-08, 0, 0, -0.05)
+cast_shadow = 0
 radius = 0.02
 height = 0.3
 sides = 10
@@ -64,9 +73,12 @@ material = ExtResource("1_kxcys")
 [node name="OmniLight3D" type="OmniLight3D" parent="CSGCylinder3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.18, 0)
 light_color = Color(0.94902, 0.490196, 0.0470588, 1)
-light_energy = 0.1
+light_energy = 0.2
+shadow_enabled = true
 omni_range = 4.5
 omni_attenuation = 2.0
+script = ExtResource("2_iw13e")
+noise = SubResource("NoiseTexture2D_fp2df")
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="CSGCylinder3D"]
 transform = Transform3D(0.939693, 0.34202, 0, -0.34202, 0.939693, 0, 0, 0, 1, 0, 0.18, 0)
