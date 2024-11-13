@@ -65,7 +65,7 @@ material = ExtResource("1_kxcys")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.18, 0)
 light_color = Color(0.94902, 0.490196, 0.0470588, 1)
 light_energy = 0.1
-omni_range = 3.0
+omni_range = 4.5
 omni_attenuation = 2.0
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="CSGCylinder3D"]

@@ -19,10 +19,11 @@ sky_material = SubResource("ProceduralSkyMaterial_jldcv")
 
 [sub_resource type="Environment" id="Environment_cgt2h"]
 background_mode = 2
-background_energy_multiplier = 0.6
+background_energy_multiplier = 0.4
 sky = SubResource("Sky_44ppa")
 ambient_light_color = Color(1, 1, 1, 1)
 ambient_light_energy = 0.0
+ssao_enabled = true
 ssao_radius = 0.5
 ssao_intensity = 1.0
 ssao_power = 2.0

@@ -17,15 +17,7 @@ var placement_points = []
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	material_override = WALL
-	gen_map()
-	gen_mesh()
-	mesh = wall_meshes
-	for child in get_children():
-		if child is StaticBody3D:
-			child.queue_free()
-	create_trimesh_collision()
-	for location in placement_points:
-		place_torch(location[0], location[1])
+	reload_map()
 
 func place_torch(pos: Vector3, rot: Vector3) -> void:
 	var torch_instance = TORCH.instantiate()
@@ -37,11 +29,21 @@ func reload_map() -> void:
 	placement_points = []
 	gen_map()
 	gen_mesh()
-	mesh = wall_meshes
+	var surface_tool = SurfaceTool.new()
+	var finished_wall_mesh = ArrayMesh.new()
+	for i in range(wall_meshes.get_surface_count()):
+		surface_tool.create_from(wall_meshes, i)
+		surface_tool.generate_normals()
+		finished_wall_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, surface_tool.commit_to_arrays()) 
+	mesh = finished_wall_mesh
 	for child in get_children():
 		if child is StaticBody3D:
 			child.queue_free()
 	create_trimesh_collision()
+	for child in placed_objects.get_children():
+		child.queue_free()
+	for location in placement_points:
+		place_torch(location[0], location[1])
 
 func gen_map() -> void:
 	mapPoints = []
