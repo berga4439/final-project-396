@@ -314,6 +314,9 @@ func _process(_delta: float) -> void:
 		reload_map()
 	if Input.is_action_just_pressed("release_mouse"):
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+	if Input.is_action_just_pressed("fullscreen"):
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
 
 
 class Point:

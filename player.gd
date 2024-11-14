@@ -2,7 +2,7 @@ extends CharacterBody3D
 
 @onready var head: Node3D = $Head
 
-const SPEED = 3.5
+const SPEED = 3.0
 const JUMP_VELOCITY = 0.0
 
 @export var LERP_SPEED = 12.5
