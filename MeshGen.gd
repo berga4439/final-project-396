@@ -1,7 +1,7 @@
 extends MeshInstance3D
 
 
-const WALL = preload("res://textures/temp_art/wall.tres")
+const WALL = preload("res://textures/temp_art/wall.tres") 
 const TORCH = preload("res://torch.tscn")
 @onready var placed_objects: Node3D = $"../../Objects"
 @onready var player: CharacterBody3D = $"../../Player"
@@ -148,15 +148,25 @@ func new_quad(tilePoints: Array) -> void:
 				var u_edge = verts[2] - verts[0]
 				var v_edge = verts[1] - verts[0]
 				var norm = u_edge.cross(v_edge)
+				var uvs = PackedVector2Array()
 				if(invert):
 					norm = -norm
+					uvs = PackedVector2Array([
+						Vector2(0, 1),
+						Vector2(1, 1),
+						Vector2(0, 0),
+						Vector2(1, 0)
+					])
+					
+				else:
+					uvs = PackedVector2Array([
+						Vector2(1, 1),
+						Vector2(0, 1),
+						Vector2(1, 0),
+						Vector2(0, 0)
+					])
 				placement_points.append([midpoint, norm])
-				var uvs = PackedVector2Array([
-					Vector2(0, 0),
-					Vector2(1, 0),
-					Vector2(0, 1),
-					Vector2(1, 1)
-				])
+				
 				var surf = []
 				surf.resize(ArrayMesh.ARRAY_MAX)
 				surf[ArrayMesh.ARRAY_VERTEX] = verts
@@ -199,15 +209,24 @@ func new_quad(tilePoints: Array) -> void:
 					var u_edge = verts[2] - verts[0]
 					var v_edge = verts[1] - verts[0]
 					var norm = u_edge.cross(v_edge)
+					var uvs = PackedVector2Array()
 					if(invert):
 						norm = -norm
+						uvs = PackedVector2Array([
+							Vector2(0, 1),
+							Vector2(1, 1),
+							Vector2(0, 0),
+							Vector2(1, 0)
+						])
+					else:
+						uvs = PackedVector2Array([
+							Vector2(1, 1),
+							Vector2(0, 1),
+							Vector2(1, 0),
+							Vector2(0, 0)
+						])
 					placement_points.append([midpoint, norm])
-					var uvs = PackedVector2Array([
-						Vector2(0, 0),
-						Vector2(1, 0),
-						Vector2(0, 1),
-						Vector2(1, 1)
-					])
+					
 					var surf = []
 					surf.resize(ArrayMesh.ARRAY_MAX)
 					surf[ArrayMesh.ARRAY_VERTEX] = verts
@@ -250,15 +269,24 @@ func new_quad(tilePoints: Array) -> void:
 			var u_edge = verts[2] - verts[0]
 			var v_edge = verts[1] - verts[0]
 			var norm = u_edge.cross(v_edge)
+			var uvs = PackedVector2Array()
 			if(invert):
 				norm = -norm
-			placement_points.append([midpoint, norm])
-			var uvs = PackedVector2Array([
-					Vector2(0, 0),
-					Vector2(1, 0),
+				uvs = PackedVector2Array([
 					Vector2(0, 1),
-					Vector2(1, 1)
-			])
+					Vector2(1, 1),
+					Vector2(0, 0),
+					Vector2(1, 0)
+				])
+			else:
+				uvs = PackedVector2Array([
+					Vector2(1, 1),
+					Vector2(0, 1),
+					Vector2(1, 0),
+					Vector2(0, 0)
+				])
+				
+			placement_points.append([midpoint, norm])
 			var surf = []
 			surf.resize(ArrayMesh.ARRAY_MAX)
 			surf[ArrayMesh.ARRAY_VERTEX] = verts
@@ -300,15 +328,24 @@ func new_quad(tilePoints: Array) -> void:
 				var u_edge = verts[2] - verts[0]
 				var v_edge = verts[1] - verts[0]
 				var norm = u_edge.cross(v_edge)
+				var uvs = PackedVector2Array()
 				if(!invert):
 					norm = -norm
+					uvs = PackedVector2Array([
+						Vector2(0, 1),
+						Vector2(1, 1),
+						Vector2(0, 0),
+						Vector2(1, 0)
+					])
+				else:
+					uvs = PackedVector2Array([
+						Vector2(1, 1),
+						Vector2(0, 1),
+						Vector2(1, 0),
+						Vector2(0, 0)
+					])
 				placement_points.append([midpoint, norm])
-				var uvs = PackedVector2Array([
-					Vector2(0, 0),
-					Vector2(1, 0),
-					Vector2(0, 1),
-					Vector2(1, 1)
-				])
+				
 				var surf = []
 				surf.resize(ArrayMesh.ARRAY_MAX)
 				surf[ArrayMesh.ARRAY_VERTEX] = verts
