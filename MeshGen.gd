@@ -1,8 +1,10 @@
 extends MeshInstance3D
 
+
 const WALL = preload("res://textures/temp_art/wall.tres")
 const TORCH = preload("res://torch.tscn")
 @onready var placed_objects: Node3D = $"../../Objects"
+@onready var player: CharacterBody3D = $"../../Player"
 
 @export var DIM = 10
 @export var UNITS = 1
@@ -47,6 +49,12 @@ func reload_map() -> void:
 	var selection = placement_points.size() * DECAL_PERCENTAGE
 	for i in range(selection):
 		place_torch(placement_points[i][0], placement_points[i][1])
+	var spawnPoints = []
+	for p in mapPoints:
+		if p.isInterior:
+			spawnPoints.append([p.x, p.y])
+	spawnPoints.shuffle()
+	player.position = Vector3(spawnPoints[0][0], player.position.y, spawnPoints[0][1])
 
 func gen_map() -> void:
 	mapPoints = []
