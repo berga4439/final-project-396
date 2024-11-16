@@ -23,10 +23,13 @@ background_energy_multiplier = 0.4
 sky = SubResource("Sky_44ppa")
 ambient_light_color = Color(1, 1, 1, 1)
 ambient_light_energy = 0.0
+ssr_enabled = true
 ssao_enabled = true
 ssao_radius = 0.5
 ssao_intensity = 1.0
 ssao_power = 2.0
+ssil_enabled = true
+sdfgi_use_occlusion = true
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_d6plg"]
 

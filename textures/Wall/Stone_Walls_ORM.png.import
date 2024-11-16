@@ -3,28 +3,27 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bhofjf01ghefk"
-path.s3tc="res://.godot/imported/Stone_Walls_ORM.png-3072faf55a0d11392a2a14605ba81d9e.s3tc.ctex"
+path="res://.godot/imported/Stone_Walls_ORM.png-3072faf55a0d11392a2a14605ba81d9e.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://textures/Wall/Stone_Walls_ORM.png"
-dest_files=["res://.godot/imported/Stone_Walls_ORM.png-3072faf55a0d11392a2a14605ba81d9e.s3tc.ctex"]
+dest_files=["res://.godot/imported/Stone_Walls_ORM.png-3072faf55a0d11392a2a14605ba81d9e.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=3
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/normal_map=0
-compress/channel_pack=0
+compress/normal_map=2
+compress/channel_pack=1
 mipmaps/generate=true
 mipmaps/limit=-1
-roughness/mode=0
+roughness/mode=3
 roughness/src_normal=""
 process/fix_alpha_border=true
 process/premult_alpha=false

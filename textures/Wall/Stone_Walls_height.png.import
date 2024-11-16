@@ -3,25 +3,24 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dilnmkwvpsk5s"
-path.s3tc="res://.godot/imported/Stone_Walls_height.png-37cf86c1f4a96d92e4582ecc0fbebd2a.s3tc.ctex"
+path="res://.godot/imported/Stone_Walls_height.png-37cf86c1f4a96d92e4582ecc0fbebd2a.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://textures/Wall/Stone_Walls_height.png"
-dest_files=["res://.godot/imported/Stone_Walls_height.png-37cf86c1f4a96d92e4582ecc0fbebd2a.s3tc.ctex"]
+dest_files=["res://.godot/imported/Stone_Walls_height.png-37cf86c1f4a96d92e4582ecc0fbebd2a.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=3
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/normal_map=0
-compress/channel_pack=0
+compress/normal_map=2
+compress/channel_pack=1
 mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=7

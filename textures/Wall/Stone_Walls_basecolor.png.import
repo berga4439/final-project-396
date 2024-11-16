@@ -3,24 +3,23 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c155mgkct8vqn"
-path.s3tc="res://.godot/imported/Stone_Walls_basecolor.png-df8a403c36da2c23a8dcc46d6864cb36.s3tc.ctex"
+path="res://.godot/imported/Stone_Walls_basecolor.png-df8a403c36da2c23a8dcc46d6864cb36.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://textures/Wall/Stone_Walls_basecolor.png"
-dest_files=["res://.godot/imported/Stone_Walls_basecolor.png-df8a403c36da2c23a8dcc46d6864cb36.s3tc.ctex"]
+dest_files=["res://.godot/imported/Stone_Walls_basecolor.png-df8a403c36da2c23a8dcc46d6864cb36.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=3
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/normal_map=0
+compress/normal_map=2
 compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1

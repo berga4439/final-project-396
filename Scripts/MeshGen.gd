@@ -37,6 +37,7 @@ func reload_map() -> void:
 	for i in range(wall_meshes.get_surface_count()):
 		surface_tool.create_from(wall_meshes, i)
 		surface_tool.generate_normals()
+		surface_tool.generate_tangents()
 		finished_wall_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, surface_tool.commit_to_arrays()) 
 	mesh = finished_wall_mesh
 	for child in get_children():
