@@ -1,16 +1,16 @@
 [gd_scene load_steps=11 format=3 uid="uid://coufd48ogb5ru"]
 
-[ext_resource type="Script" path="res://MeshGen.gd" id="1_urorb"]
-[ext_resource type="Material" uid="uid://yb2qrjrrdreu" path="res://textures/temp_art/Floor.tres" id="1_ve1nd"]
-[ext_resource type="Material" uid="uid://bq4blvh5lwlid" path="res://textures/temp_art/Ceiling.tres" id="2_k0vx0"]
-[ext_resource type="Script" path="res://player.gd" id="2_phwvp"]
+[ext_resource type="Material" uid="uid://yb2qrjrrdreu" path="res://textures/temp_art/Floor.tres" id="1_pkewy"]
+[ext_resource type="Material" uid="uid://bq4blvh5lwlid" path="res://textures/temp_art/Ceiling.tres" id="2_ing8a"]
+[ext_resource type="Script" path="res://Scripts/MeshGen.gd" id="3_ghv0f"]
+[ext_resource type="Script" path="res://Scripts/player.gd" id="4_umsml"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_b35b8"]
 lightmap_size_hint = Vector2i(20, 20)
-material = ExtResource("1_ve1nd")
+material = ExtResource("1_pkewy")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_d6v52"]
-material = ExtResource("2_k0vx0")
+material = ExtResource("2_ing8a")
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_jldcv"]
 
@@ -47,7 +47,7 @@ skeleton = NodePath("../..")
 [node name="RandomInteriorGenerator" type="MeshInstance3D" parent="Geometry"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000319958, -0.00436845, 0.00096035)
 skeleton = NodePath("../..")
-script = ExtResource("1_urorb")
+script = ExtResource("3_ghv0f")
 DIM = 22
 PASSES = 10
 STEPS = 50
@@ -64,7 +64,7 @@ environment = SubResource("Environment_cgt2h")
 
 [node name="Player" type="CharacterBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.460443, 0)
-script = ExtResource("2_phwvp")
+script = ExtResource("4_umsml")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
 transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
