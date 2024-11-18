@@ -1,5 +1,6 @@
-[gd_scene load_steps=11 format=3 uid="uid://coufd48ogb5ru"]
+[gd_scene load_steps=12 format=3 uid="uid://coufd48ogb5ru"]
 
+[ext_resource type="Material" uid="uid://c3wrryph5p0gc" path="res://Materials/Floor.tres" id="1_fclyw"]
 [ext_resource type="Material" uid="uid://yb2qrjrrdreu" path="res://textures/temp_art/Floor.tres" id="1_pkewy"]
 [ext_resource type="Material" uid="uid://bq4blvh5lwlid" path="res://textures/temp_art/Ceiling.tres" id="2_ing8a"]
 [ext_resource type="Script" path="res://Scripts/MeshGen.gd" id="3_ghv0f"]
@@ -39,6 +40,7 @@ sdfgi_use_occlusion = true
 
 [node name="Floor" type="MeshInstance3D" parent="Geometry"]
 transform = Transform3D(25, 0, 0, 0, 1, 0, 0, 0, 25, 0, 0, 0)
+material_override = ExtResource("1_fclyw")
 mesh = SubResource("PlaneMesh_b35b8")
 skeleton = NodePath("../..")
 
