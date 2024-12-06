@@ -2,7 +2,7 @@
 
 [ext_resource type="Material" uid="uid://c3wrryph5p0gc" path="res://Materials/Floor.tres" id="1_fclyw"]
 [ext_resource type="Material" uid="uid://yb2qrjrrdreu" path="res://textures/temp_art/Floor.tres" id="1_pkewy"]
-[ext_resource type="Material" uid="uid://bq4blvh5lwlid" path="res://textures/temp_art/Ceiling.tres" id="2_ing8a"]
+[ext_resource type="Material" uid="uid://bf87m3wpaf3kw" path="res://Materials/Ceiling.tres" id="3_2koim"]
 [ext_resource type="Script" path="res://Scripts/MeshGen.gd" id="3_ghv0f"]
 [ext_resource type="Script" path="res://Scripts/player.gd" id="4_umsml"]
 
@@ -11,7 +11,7 @@ lightmap_size_hint = Vector2i(20, 20)
 material = ExtResource("1_pkewy")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_d6v52"]
-material = ExtResource("2_ing8a")
+material = ExtResource("3_2koim")
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_jldcv"]
 

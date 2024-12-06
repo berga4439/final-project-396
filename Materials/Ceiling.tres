@@ -1,0 +1,16 @@
+[gd_resource type="ORMMaterial3D" load_steps=5 format=3 uid="uid://bf87m3wpaf3kw"]
+
+[ext_resource type="Texture2D" uid="uid://c1j0t25sdy5a7" path="res://textures/Ceiling/Ceiling_new_basecolor.png" id="1_ero50"]
+[ext_resource type="Texture2D" uid="uid://dlqwitk0c4we4" path="res://textures/Ceiling/Ceiling_new_height.png" id="2_df7wy"]
+[ext_resource type="Texture2D" uid="uid://b1qkwwqw1s3iq" path="res://textures/Ceiling/Ceiling_new_normal.png" id="3_dp0p1"]
+[ext_resource type="Texture2D" uid="uid://dq4nhexl8ke1w" path="res://textures/Ceiling/Ceiling_new_ORM.png" id="4_31wny"]
+
+[resource]
+albedo_texture = ExtResource("1_ero50")
+orm_texture = ExtResource("4_31wny")
+normal_enabled = true
+normal_texture = ExtResource("3_dp0p1")
+heightmap_enabled = true
+heightmap_scale = 1.0
+heightmap_texture = ExtResource("2_df7wy")
+uv1_scale = Vector3(25, 25, 25)
