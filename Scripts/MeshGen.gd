@@ -1,7 +1,7 @@
 extends MeshInstance3D
 
 
-const WALL = preload("res://Materials/Wall.tres") 
+const WALL = preload("res://Materials/nWall.tres") 
 const TORCH = preload("res://Scenes/torch.tscn")
 @onready var placed_objects: Node3D = $"../../Objects"
 @onready var player: CharacterBody3D = $"../../Player"

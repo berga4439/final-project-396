@@ -1,0 +1,19 @@
+[gd_resource type="ORMMaterial3D" load_steps=5 format=3 uid="uid://01ieron74d0u"]
+
+[ext_resource type="Texture2D" uid="uid://cnpim75786q2f" path="res://textures/New Walls/new_stone_walls_basecolor.png" id="1_y8w55"]
+[ext_resource type="Texture2D" uid="uid://dst0m4n4uyrtq" path="res://textures/New Walls/new_stone_walls_height.png" id="2_ajhce"]
+[ext_resource type="Texture2D" uid="uid://bdgc72k81siyp" path="res://textures/New Walls/new_stone_walls_normal.png" id="3_d3xk5"]
+[ext_resource type="Texture2D" uid="uid://cusxvrh4etltu" path="res://textures/New Walls/new_stone_walls_output.png" id="4_0y7g2"]
+
+[resource]
+albedo_texture = ExtResource("1_y8w55")
+orm_texture = ExtResource("4_0y7g2")
+normal_enabled = true
+normal_scale = -0.5
+normal_texture = ExtResource("3_d3xk5")
+ao_light_affect = 0.35
+heightmap_enabled = true
+heightmap_deep_parallax = true
+heightmap_min_layers = 32
+heightmap_max_layers = 32
+heightmap_texture = ExtResource("2_ajhce")
